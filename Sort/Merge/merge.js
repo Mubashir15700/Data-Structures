@@ -4,10 +4,10 @@ function mergeSort(arr) {
     }
 
     let mid = Math.floor(arr.length / 2);
-    let left = mergeSort(arr.slice(0, mid));
-    let right = mergeSort(arr.slice(mid));
+    let left = arr.slice(0, mid);
+    let right = arr.slice(mid);
 
-    return merge(left, right);
+    return merge(mergeSort(left), mergeSort(right));
 };
 
 function merge(left, right) {

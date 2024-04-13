@@ -119,6 +119,37 @@ class List {
         }
     }
 
+    findMidElement() {
+        if (this.isEmpty()) {
+            return;
+        }
+
+        let fast = this.head;
+        let slow = this.head;
+        while (fast.next && fast.next.next) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    removeMidElement() {
+        if (this.isEmpty()) {
+            return;
+        }
+
+        let fast = this.head;
+        let slow = this.head;
+        let prev = null;
+        while (fast.next && fast.next.next) {
+            prev = slow;
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        prev.next = slow.next;
+        this.size--;
+    }
+
     search(value) {
         if (this.isEmpty()) {
             return -1;
