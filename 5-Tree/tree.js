@@ -51,14 +51,27 @@ class Tree {
         }
     }
 
-    dfs(node = this.root, res = []) {
+    dfs1(node = this.root, res = []) {
         if (!node) {
-            return
+            return res;
         }
         res.push(node.value);
 
         for (const child of node.children) {
-            this.dfs(child, res);
+            this.dfs1(child, res);
+        }
+        return res;
+    }
+
+    dfs2() {
+        const stack = [this.root];
+        const res = [];
+        while (stack.length) {
+            const curr = stack.pop();
+            res.push(curr.value);
+            for (let child of curr.children) {
+                stack.push(child);
+            }
         }
         return res;
     }
@@ -93,5 +106,6 @@ tree.insert(6, 7);
 
 console.log(tree);
 
-console.log(tree.dfs());
+console.log("dfs1: ", tree.dfs1());
+console.log("dfs2: ", tree.dfs2());
 console.log(tree.bfs());

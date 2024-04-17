@@ -23,7 +23,7 @@ class Trie {
 
     delete(word) {
         const helper = (node, word, depth) => {
-            if (depth !== word.length) {
+            if (depth === word.length) {
                 if (!node.isWord) {
                     return false;
                 }
@@ -55,17 +55,17 @@ class Trie {
             curr = curr.children[char];
         }
 
-        return this._collectWords(curr, prefix);
+        return this.collectWords(curr, prefix);
     }
 
-    _collectWords(node, prefix) {
+    collectWords(node, prefix) {
         let suggestions = [];
         if (node.isWord) {
             suggestions.push(prefix);
         }
 
         for (let child in node.children) {
-            suggestions = suggestions.concat(this._collectWords(node.children[child], prefix + child));
+            suggestions = suggestions.concat(this.collectWords(node.children[child], prefix + child));
         }
         return suggestions;
     }
@@ -78,3 +78,4 @@ trie.insert("serbia");
 
 console.log("trie: ", trie);
 console.log("suggestions: ", trie.suggestions("se"));
+console.log("delete: ", trie.delete("sebis"));

@@ -87,7 +87,10 @@ class BST {
             return false;
         }
 
-        return this.isSimilar(root1.left, root2.left) && this.isSimilar(root1.right, root2.right);
+        return (
+            this.isSimilar(root1.left, root2.left) &&
+            this.isSimilar(root1.right, root2.right)
+        );
     }
 
     areStructuresSame(root1, root2) {

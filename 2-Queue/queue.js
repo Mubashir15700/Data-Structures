@@ -30,7 +30,7 @@ class Queue {
     print() {
         let str = "";
 
-        for (let i = 0; i < this.getSize() - 1; i++) {
+        for (let i = 0; i < this.getSize(); i++) {
             str += this.items[i];
         }
 

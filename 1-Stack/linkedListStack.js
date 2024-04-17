@@ -72,7 +72,5 @@ stack.push(7);
 stack.push(2);
 
 console.log(stack);
-
 console.log(stack.peek());
-
 console.log(stack.print());

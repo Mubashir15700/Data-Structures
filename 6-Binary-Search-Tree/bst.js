@@ -93,12 +93,14 @@ class Tree {
         const res = [];
         while (queue.length) {
             const curr = queue.shift();
-            res.push(curr.value);
-            if (curr.left) {
-                queue.push(curr.left);
-            }
-            if (curr.right) {
-                queue.push(curr.right);
+            if (curr) {
+                res.push(curr.value);
+                if (curr.left) {
+                    queue.push(curr.left);
+                }
+                if (curr.right) {
+                    queue.push(curr.right);
+                }
             }
         }
         return res;
@@ -133,8 +135,8 @@ class Tree {
             root.value = this.min(root.right);
             root.right = this.deleteNode(root.right, value);
 
-            return root;
         }
+        return root;
     }
 }
 
@@ -148,4 +150,6 @@ tree.insert(7);
 tree.insert(2);
 
 console.log(tree);
+console.log(tree.levelOrder());
+console.log("delete: ", tree.delete(89));
 console.log(tree.levelOrder());
