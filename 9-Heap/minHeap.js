@@ -28,63 +28,67 @@ class Heap {
 
     insert(value) {
         this.heap.push(value);
-        this.heapifyUp();
+        this.heapifyUp(this.heap.length - 1);
     }
 
-    heapifyUp() {
-        let index = this.heap.length - 1;
-        while (index > 0) {
-            const parentIndex = this.getParentIndex(index);
-            if (this.heap[parentIndex] > this.heap[index]) {
-                this.swap(parentIndex, index);
-                index = parentIndex;
-            } else {
-                break;
-            }
+    heapifyUp(index) {
+        if (index === 0) {
+            return;
+        }
+
+        const parentIndex = this.getPIndex(index);
+
+        if (this.heap[index] < this.heap[parentIndex]) {
+            this.swap(index, parentIndex);
+            this.heapifyUp(parentIndex);
         }
     }
 
     extract() {
-        if (this.heap.length === 0) {
+        if (!this.heap.length) {
             return null;
         }
-
-        if (this.heap.length === 1) {
-            return this.heap.pop();
-        }
-
-        const removedValue = this.heap[0];
+        const item = this.heap[0];
         this.heap[0] = this.heap.pop();
-        this.heapifyDown();
-        return removedValue;
+        this.heapifyDown(this.heap, this.heap.length, 0);
+        return item;
     }
 
-    heapifyDown() {
-        let index = 0;
-        while (this.getLeftChildIndex(index) < this.heap.length) {
-            const leftChildIndex = this.getLeftChildIndex(index);
-            const rightChildIndex = this.getRightChildIndex(index);
-            const smallestChildIndex = rightChildIndex < this.heap.length && this.heap[rightChildIndex] < this.heap[leftChildIndex] ? rightChildIndex : leftChildIndex;
-            if (this.heap[index] > this.heap[smallestChildIndex]) {
-                this.swap(index, smallestChildIndex);
-                index = smallestChildIndex;
-            } else {
-                break;
-            }
+    heapifyDown(heap, length, index) {
+        if (index >= length) {
+            return;
+        }
+
+        let smallestChildIndex = index;
+        const leftChildIndex = this.getLChild(index);
+        const rightChildIndex = this.getRChild(index);
+
+        if (leftChildIndex < length && heap[leftChildIndex] < heap[smallestChildIndex]) {
+            smallestChildIndex = leftChildIndex
+        }
+
+        if (rightChildIndex < length && heap[rightChildIndex] < heap[leftChildIndex]) {
+            smallestChildIndex = rightChildIndex;
+        }
+
+        if (index !== smallestChildIndex) {
+            this.swap(index, smallestChildIndex)
+            this.heapifyDown(heap, length, smallestChildIndex);
         }
     }
 
-    heapSort(array) {
-        const heap = new Heap();
+    heapSort(arr) {
+        const length = arr.length;
 
-        array.forEach(element => heap.insert(element));
-
-        const sortedArray = [];
-
-        while (heap.peek() !== null) {
-            sortedArray.push(heap.extract());
+        for (let i = Math.floor((length / 2) - 1); i >= 0; i--) {
+            this.heapifyDown(arr, length, i);
         }
 
-        return sortedArray;
+        for (let i = length - 1; i > 0; i--) {
+            [arr[0], arr[i]] = [arr[i], arr[0]];
+            this.heapifyDown(arr, i, 0);
+        }
+
+        return arr;
     }
 }
